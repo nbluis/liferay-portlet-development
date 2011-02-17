@@ -21,7 +21,7 @@
 		<footer-portlet-javascript>
 			/js/javascript.js
 		</footer-portlet-javascript>
-		<css-class-wrapper>bookporlet-portlet</css-class-wrapper>
+		<css-class-wrapper>bookportlet-portlet</css-class-wrapper>
 	</portlet>
 	<role-mapper>
 		<role-name>administrator</role-name>

@@ -38,6 +38,17 @@
 			<short-title>PublisherPortlet</short-title>
 			<keywords></keywords>
 		</portlet-info>
+		<!-- Portlet preferences (configurable by user in portlet EDIT mode) -->
+		<portlet-preferences>
+			<preference>
+				<name>rowsPerPage</name>
+				<value>5</value>
+			</preference>
+			<preference>
+				<name>phoneFormat</name>
+				<value>###-###-####</value>
+			</preference>
+		</portlet-preferences>
 		<security-role-ref>
 			<role-name>administrator</role-name>
 		</security-role-ref>
@@ -55,7 +66,7 @@
 		<portlet-name>liferay-book</portlet-name>
 		<display-name>Liferay Book</display-name>
 		<portlet-class>
-			com.liferay.training.library.portlet.BookPorlet
+			com.liferay.training.library.portlet.BookPortlet
 		</portlet-class>
 		<init-param>
 			<name>view-jsp</name>
@@ -79,7 +90,7 @@
 		<resource-bundle>content/Language</resource-bundle>
 		<portlet-info>
 			<title>Liferay Book</title>
-			<short-title>BookPorlet</short-title>
+			<short-title>BookPortlet</short-title>
 			<keywords></keywords>
 		</portlet-info>
 		<security-role-ref>
