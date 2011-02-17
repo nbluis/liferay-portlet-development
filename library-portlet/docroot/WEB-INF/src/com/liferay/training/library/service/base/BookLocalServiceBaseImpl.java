@@ -97,9 +97,10 @@ public abstract class BookLocalServiceBaseImpl implements BookLocalService {
 	 * Deletes the book from the database. Also notifies the appropriate model listeners.
 	 *
 	 * @param book the book to delete
+	 * @throws PortalException
 	 * @throws SystemException if a system exception occurred
 	 */
-	public void deleteBook(Book book) throws SystemException {
+	public void deleteBook(Book book) throws PortalException, SystemException {
 		bookPersistence.remove(book);
 	}
 

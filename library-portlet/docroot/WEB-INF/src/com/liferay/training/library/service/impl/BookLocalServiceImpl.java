@@ -15,7 +15,9 @@
 package com.liferay.training.library.service.impl;
 
 import com.liferay.counter.service.CounterLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.model.ResourceConstants;
 import com.liferay.training.library.model.Book;
 import com.liferay.training.library.service.base.BookLocalServiceBaseImpl;
 
@@ -51,13 +53,41 @@ public class BookLocalServiceImpl extends BookLocalServiceBaseImpl {
 	/**
 	 * Adds the Book to the database incrementing the primary key
 	 * 
+	 * @throws PortalException
+	 * 
 	 */
-	public Book addBook(Book book) throws SystemException {
+	public Book addBook(Book newBook, long userId) throws SystemException, PortalException {
 		long bookId = CounterLocalServiceUtil.increment(Book.class.getName());
 
-		book.setBookId(bookId);
+		Book book = bookPersistence.create(bookId);
+		book.setAuthorName(newBook.getAuthorName());
+		book.setCompanyId(newBook.getCompanyId());
+		book.setGroupId(newBook.getGroupId());
+		book.setPublicationDate(newBook.getPublicationDate());
+		book.setPublisherId(newBook.getPublisherId());
+		book.setTitle(newBook.getTitle());
 
-		return super.addBook(book);
+		bookPersistence.update(book, false);
+
+		resourceLocalService.addResources(book.getCompanyId(), book.getGroupId(), userId, Book.class.getName(), bookId, false, true, true);
+
+		return book;
+
+	}
+
+	public void deleteBook(Book book) throws PortalException, SystemException {
+
+		resourceLocalService.deleteResource(book.getCompanyId(), Book.class.getName(), ResourceConstants.SCOPE_INDIVIDUAL, book.getPrimaryKey());
+
+		super.deleteBook(book);
+
+	}
+
+	public void deleteBook(long bookId) throws PortalException, SystemException {
+
+		Book book = bookLocalService.getBook(bookId);
+
+		deleteBook(book);
 	}
 
 	/**

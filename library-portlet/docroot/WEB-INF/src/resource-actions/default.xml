@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource-action-mapping>
+	<portlet-resource>
+		<portlet-name>liferay-publisher</portlet-name>
+		<permissions>
+			<supports>
+				<action-key>ADD_TO_PAGE</action-key>
+				<action-key>CONFIGURATION</action-key>
+				<action-key>VIEW</action-key>
+			</supports>
+			<community-defaults>
+				<action-key>VIEW</action-key>
+			</community-defaults>
+			<guest-defaults>
+				<action-key>VIEW</action-key>
+			</guest-defaults>
+			<guest-unsupported />
+		</permissions>
+	</portlet-resource>
+	
+	<portlet-resource>
+		<portlet-name>liferay-book</portlet-name>
+		<permissions>
+			<supports>
+				<action-key>ADD_TO_PAGE</action-key>
+				<action-key>CONFIGURATION</action-key>
+				<action-key>VIEW</action-key>
+			</supports>
+			<community-defaults>
+				<action-key>VIEW</action-key>
+			</community-defaults>
+			<guest-defaults>
+				<action-key>VIEW</action-key>
+			</guest-defaults>
+			<guest-unsupported />
+		</permissions>
+	</portlet-resource>
+	
+	<model-resource>
+		<model-name>com.liferay.training.library.model</model-name>
+		<portlet-ref>
+			<portlet-name>liferay-book</portlet-name>
+		</portlet-ref>
+		<permissions>
+			<supports>
+				<action-key>ADD_BOOK</action-key>
+				<action-key>ADD_PUBLISHER</action-key>
+			</supports>
+			<community-defaults/>
+			<guest-defaults/>
+			<guest-unsupported>
+				<action-key>ADD_BOOK</action-key>
+				<action-key>ADD_PUBLISHER</action-key>
+			</guest-unsupported>
+		</permissions>
+	</model-resource>
+
+	<model-resource>
+		<model-name>com.liferay.training.library.model.Publisher</model-name>
+		<portlet-ref>
+			<portlet-name>liferay-publisher</portlet-name>
+		</portlet-ref>
+		<permissions>
+			<supports>
+				<action-key>DELETE</action-key>
+				<action-key>PERMISSIONS</action-key>
+				<action-key>UPDATE</action-key>
+				<action-key>VIEW</action-key>
+			</supports>
+			<community-defaults>
+				<action-key>VIEW</action-key>
+			</community-defaults>
+			<guest-defaults>
+				<action-key>VIEW</action-key>
+			</guest-defaults>
+			<guest-unsupported>
+				<action-key>UPDATE</action-key>
+			</guest-unsupported>
+		</permissions>
+	</model-resource>
+
+	<model-resource>
+		<model-name>com.liferay.training.library.model.Book</model-name>
+		<portlet-ref>
+			<portlet-name>liferay-book</portlet-name>
+		</portlet-ref>
+		<permissions>
+			<supports>
+				<action-key>DELETE</action-key>
+				<action-key>PERMISSIONS</action-key>
+				<action-key>UPDATE</action-key>
+				<action-key>VIEW</action-key>
+			</supports>
+			<community-defaults>
+				<action-key>VIEW</action-key>
+				</community-defaults>
+			<guest-defaults>
+				<action-key>VIEW</action-key>
+			</guest-defaults>
+			<guest-unsupported>
+				<action-key>UPDATE</action-key>
+			</guest-unsupported>
+		</permissions>
+	</model-resource>
+</resource-action-mapping>
+	    

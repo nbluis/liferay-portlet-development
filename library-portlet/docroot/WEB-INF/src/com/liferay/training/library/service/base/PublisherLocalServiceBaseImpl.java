@@ -100,9 +100,11 @@ public abstract class PublisherLocalServiceBaseImpl
 	 * Deletes the publisher from the database. Also notifies the appropriate model listeners.
 	 *
 	 * @param publisher the publisher to delete
+	 * @throws PortalException
 	 * @throws SystemException if a system exception occurred
 	 */
-	public void deletePublisher(Publisher publisher) throws SystemException {
+	public void deletePublisher(Publisher publisher)
+		throws PortalException, SystemException {
 		publisherPersistence.remove(publisher);
 	}
 

@@ -76,13 +76,17 @@ public class PublisherLocalServiceClp implements PublisherLocalService {
 				com.liferay.training.library.model.Publisher.class,
 				boolean.class);
 
-		_getPublishersByGroupIdMethodKey13 = new MethodKey(_classLoaderProxy.getClassName(),
-				"getPublishersByGroupId", long.class);
+		_addPublisherMethodKey13 = new MethodKey(_classLoaderProxy.getClassName(),
+				"addPublisher",
+				com.liferay.training.library.model.Publisher.class, long.class);
 
 		_getPublishersByGroupIdMethodKey14 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getPublishersByGroupId", long.class);
+
+		_getPublishersByGroupIdMethodKey15 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getPublishersByGroupId", long.class, int.class, int.class);
 
-		_getPublishersCountByGroupIdMethodKey15 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getPublishersCountByGroupIdMethodKey16 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getPublishersCountByGroupId", long.class);
 	}
 
@@ -167,7 +171,8 @@ public class PublisherLocalServiceClp implements PublisherLocalService {
 
 	public void deletePublisher(
 		com.liferay.training.library.model.Publisher publisher)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
 		MethodHandler methodHandler = new MethodHandler(_deletePublisherMethodKey3,
 				ClpSerializer.translateInput(publisher));
 
@@ -175,6 +180,10 @@ public class PublisherLocalServiceClp implements PublisherLocalService {
 			_classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
+
 			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
 				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
@@ -450,12 +459,45 @@ public class PublisherLocalServiceClp implements PublisherLocalService {
 		return (com.liferay.training.library.model.Publisher)ClpSerializer.translateOutput(returnObj);
 	}
 
+	public com.liferay.training.library.model.Publisher addPublisher(
+		com.liferay.training.library.model.Publisher newPublisher, long userId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_addPublisherMethodKey13,
+				ClpSerializer.translateInput(newPublisher), userId);
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (com.liferay.training.library.model.Publisher)ClpSerializer.translateOutput(returnObj);
+	}
+
 	public java.util.List<com.liferay.training.library.model.Publisher> getPublishersByGroupId(
 		long groupId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getPublishersByGroupIdMethodKey13,
+		MethodHandler methodHandler = new MethodHandler(_getPublishersByGroupIdMethodKey14,
 				groupId);
 
 		try {
@@ -483,7 +525,7 @@ public class PublisherLocalServiceClp implements PublisherLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getPublishersByGroupIdMethodKey14,
+		MethodHandler methodHandler = new MethodHandler(_getPublishersByGroupIdMethodKey15,
 				groupId, start, end);
 
 		try {
@@ -510,7 +552,7 @@ public class PublisherLocalServiceClp implements PublisherLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getPublishersCountByGroupIdMethodKey15,
+		MethodHandler methodHandler = new MethodHandler(_getPublishersCountByGroupIdMethodKey16,
 				groupId);
 
 		try {
@@ -551,7 +593,8 @@ public class PublisherLocalServiceClp implements PublisherLocalService {
 	private MethodKey _getPublishersCountMethodKey10;
 	private MethodKey _updatePublisherMethodKey11;
 	private MethodKey _updatePublisherMethodKey12;
-	private MethodKey _getPublishersByGroupIdMethodKey13;
+	private MethodKey _addPublisherMethodKey13;
 	private MethodKey _getPublishersByGroupIdMethodKey14;
-	private MethodKey _getPublishersCountByGroupIdMethodKey15;
+	private MethodKey _getPublishersByGroupIdMethodKey15;
+	private MethodKey _getPublishersCountByGroupIdMethodKey16;
 }

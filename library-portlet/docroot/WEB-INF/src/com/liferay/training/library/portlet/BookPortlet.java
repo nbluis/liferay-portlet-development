@@ -39,7 +39,8 @@ public class BookPortlet extends MVCPortlet {
 		Book book = bookFromRequest(request);
 
 		if (BookValidator.validateBook(book, errors)) {
-			BookLocalServiceUtil.addBook(book);
+			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+			BookLocalServiceUtil.addBook(book, themeDisplay.getUserId());
 
 			SessionMessages.add(request, "book-added");
 

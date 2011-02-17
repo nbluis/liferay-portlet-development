@@ -77,11 +77,13 @@ public interface PublisherLocalService {
 	* Deletes the publisher from the database. Also notifies the appropriate model listeners.
 	*
 	* @param publisher the publisher to delete
+	* @throws PortalException
 	* @throws SystemException if a system exception occurred
 	*/
 	public void deletePublisher(
 		com.liferay.training.library.model.Publisher publisher)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
 	* Performs a dynamic query on the database and returns the matching rows.
@@ -208,6 +210,16 @@ public interface PublisherLocalService {
 	public com.liferay.training.library.model.Publisher updatePublisher(
 		com.liferay.training.library.model.Publisher publisher, boolean merge)
 		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Adds the Publisher to the database incrementing the primary key
+	*
+	* @throws PortalException
+	*/
+	public com.liferay.training.library.model.Publisher addPublisher(
+		com.liferay.training.library.model.Publisher newPublisher, long userId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
 	* Gets a list with all the Publishers in a group

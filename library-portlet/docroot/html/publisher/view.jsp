@@ -4,17 +4,36 @@
 <liferay-ui:success key="publisher-deleted" message="publisher-deleted-successfully" />
 
 <%
-	String redirect = PortalUtil.getCurrentURL(renderRequest);	
+	boolean hasAddPermission = permissionChecker.hasPermission(
+			scopeGroupId, "com.liferay.training.library.model",
+			scopeGroupId, "ADD_PUBLISHER");
+	boolean hasConfigurePermission = permissionChecker.hasPermission(
+			scopeGroupId, Group.class.getName(), scopeGroupId,
+			ActionKeys.PERMISSIONS);
+
+	String redirect = PortalUtil.getCurrentURL(renderRequest);
 %>
 
-<aui:button-row>
+<c:if test='<%= hasAddPermission %>'>
 	<portlet:renderURL var="addPublisherURL">
 		<portlet:param name="jspPage" value="/html/publisher/edit_publisher.jsp" />
 		<portlet:param name="redirect" value="<%= redirect %>" />
 	</portlet:renderURL>
 
-	<aui:button value="Add Publisher" onClick="<%= addPublisherURL.toString() %>"/>
-</aui:button-row>
+	<aui:button value="add-publisher" onClick="<%= addPublisherURL.toString() %>"/>
+</c:if>
+<c:if test='<%= hasConfigurePermission %>'>
+	<liferay-security:permissionsURL
+	  modelResource="com.liferay.training.library.model"
+	  modelResourceDescription="library-top-level-actions"
+	  resourcePrimKey="<%= String.valueOf(scopeGroupId) %>"
+	  var="permissionsURL"
+	/>
+
+	<aui:button value="permissions" onClick="<%= permissionsURL %>"/>
+</c:if>
+
+	    
 
 <liferay-ui:search-container delta='<%= GetterUtil.getInteger(prefs.getValue("rowsPerPage", "5")) %>' emptyResultsMessage="publisher-empty-results-message">
 	<liferay-ui:search-container-results

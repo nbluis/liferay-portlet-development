@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.dao.orm.SQLQuery;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
@@ -34,6 +35,7 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.model.ModelListener;
+import com.liferay.portal.security.permission.InlineSQLHelperUtil;
 import com.liferay.portal.service.persistence.BatchSessionUtil;
 import com.liferay.portal.service.persistence.ResourcePersistence;
 import com.liferay.portal.service.persistence.UserPersistence;
@@ -711,6 +713,132 @@ public class PublisherPersistenceImpl extends BasePersistenceImpl<Publisher>
 	}
 
 	/**
+	 * Filters by the user's permissions and finds all the publishers where groupId = &#63;.
+	 *
+	 * @param groupId the group id to search with
+	 * @return the matching publishers that the user has permission to view
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<Publisher> filterFindByGroupId(long groupId)
+		throws SystemException {
+		return filterFindByGroupId(groupId, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Filters by the user's permissions and finds a range of all the publishers where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param groupId the group id to search with
+	 * @param start the lower bound of the range of publishers to return
+	 * @param end the upper bound of the range of publishers to return (not inclusive)
+	 * @return the range of matching publishers that the user has permission to view
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<Publisher> filterFindByGroupId(long groupId, int start, int end)
+		throws SystemException {
+		return filterFindByGroupId(groupId, start, end, null);
+	}
+
+	/**
+	 * Filters by the user's permissions and finds an ordered range of all the publishers where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param groupId the group id to search with
+	 * @param start the lower bound of the range of publishers to return
+	 * @param end the upper bound of the range of publishers to return (not inclusive)
+	 * @param orderByComparator the comparator to order the results by
+	 * @return the ordered range of matching publishers that the user has permission to view
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<Publisher> filterFindByGroupId(long groupId, int start,
+		int end, OrderByComparator orderByComparator) throws SystemException {
+		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
+			return findByGroupId(groupId, start, end, orderByComparator);
+		}
+
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(3 +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_PUBLISHER_WHERE);
+		}
+		else {
+			query.append(_FILTER_SQL_SELECT_PUBLISHER_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			query.append(_FILTER_SQL_SELECT_PUBLISHER_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			if (getDB().isSupportsInlineDistinct()) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_TABLE,
+					orderByComparator);
+			}
+		}
+
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				query.append(PublisherModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				query.append(PublisherModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
+				Publisher.class.getName(), _FILTER_COLUMN_PK,
+				_FILTER_COLUMN_USERID, groupId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SQLQuery q = session.createSQLQuery(sql);
+
+			if (getDB().isSupportsInlineDistinct()) {
+				q.addEntity(_FILTER_ENTITY_ALIAS, PublisherImpl.class);
+			}
+			else {
+				q.addEntity(_FILTER_ENTITY_TABLE, PublisherImpl.class);
+			}
+
+			QueryPos qPos = QueryPos.getInstance(q);
+
+			qPos.add(groupId);
+
+			return (List<Publisher>)QueryUtil.list(q, getDialect(), start, end);
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	/**
 	 * Finds all the publishers.
 	 *
 	 * @return the publishers
@@ -896,6 +1024,54 @@ public class PublisherPersistenceImpl extends BasePersistenceImpl<Publisher>
 	}
 
 	/**
+	 * Filters by the user's permissions and counts all the publishers where groupId = &#63;.
+	 *
+	 * @param groupId the group id to search with
+	 * @return the number of matching publishers that the user has permission to view
+	 * @throws SystemException if a system exception occurred
+	 */
+	public int filterCountByGroupId(long groupId) throws SystemException {
+		if (!InlineSQLHelperUtil.isEnabled(groupId)) {
+			return countByGroupId(groupId);
+		}
+
+		StringBundler query = new StringBundler(2);
+
+		query.append(_FILTER_SQL_COUNT_PUBLISHER_WHERE);
+
+		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(query.toString(),
+				Publisher.class.getName(), _FILTER_COLUMN_PK,
+				_FILTER_COLUMN_USERID, groupId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SQLQuery q = session.createSQLQuery(sql);
+
+			q.addScalar(COUNT_COLUMN_NAME,
+				com.liferay.portal.kernel.dao.orm.Type.LONG);
+
+			QueryPos qPos = QueryPos.getInstance(q);
+
+			qPos.add(groupId);
+
+			Long count = (Long)q.uniqueResult();
+
+			return count.intValue();
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	/**
 	 * Counts all the publishers.
 	 *
 	 * @return the number of publishers
@@ -979,7 +1155,18 @@ public class PublisherPersistenceImpl extends BasePersistenceImpl<Publisher>
 	private static final String _SQL_COUNT_PUBLISHER = "SELECT COUNT(publisher) FROM Publisher publisher";
 	private static final String _SQL_COUNT_PUBLISHER_WHERE = "SELECT COUNT(publisher) FROM Publisher publisher WHERE ";
 	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "publisher.groupId = ?";
+	private static final String _FILTER_SQL_SELECT_PUBLISHER_WHERE = "SELECT DISTINCT {publisher.*} FROM Library_Publisher publisher WHERE ";
+	private static final String _FILTER_SQL_SELECT_PUBLISHER_NO_INLINE_DISTINCT_WHERE_1 =
+		"SELECT {Library_Publisher.*} FROM (SELECT DISTINCT publisher.publisherId FROM Library_Publisher publisher WHERE ";
+	private static final String _FILTER_SQL_SELECT_PUBLISHER_NO_INLINE_DISTINCT_WHERE_2 =
+		") TEMP_TABLE INNER JOIN Library_Publisher ON TEMP_TABLE.publisherId = Library_Publisher.publisherId";
+	private static final String _FILTER_SQL_COUNT_PUBLISHER_WHERE = "SELECT COUNT(DISTINCT publisher.publisherId) AS COUNT_VALUE FROM Library_Publisher publisher WHERE ";
+	private static final String _FILTER_COLUMN_PK = "publisher.publisherId";
+	private static final String _FILTER_COLUMN_USERID = null;
+	private static final String _FILTER_ENTITY_ALIAS = "publisher";
+	private static final String _FILTER_ENTITY_TABLE = "Library_Publisher";
 	private static final String _ORDER_BY_ENTITY_ALIAS = "publisher.";
+	private static final String _ORDER_BY_ENTITY_TABLE = "Library_Publisher.";
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No Publisher exists with the primary key ";
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Publisher exists with the key {";
 	private static Log _log = LogFactoryUtil.getLog(PublisherPersistenceImpl.class);

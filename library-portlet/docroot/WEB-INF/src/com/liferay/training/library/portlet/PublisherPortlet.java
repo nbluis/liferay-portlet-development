@@ -11,6 +11,7 @@ import com.liferay.training.library.model.Publisher;
 import com.liferay.training.library.model.impl.PublisherImpl;
 import com.liferay.training.library.service.PublisherLocalServiceUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
+import com.sun.corba.se.spi.servicecontext.UEInfoServiceContext;
 
 import java.util.ArrayList;
 
@@ -35,7 +36,8 @@ public class PublisherPortlet extends MVCPortlet {
 		ArrayList<String> errors = new ArrayList<String>();
 
 		if (PublisherValidator.validatePublisher(publisher, errors)) {
-			PublisherLocalServiceUtil.addPublisher(publisher);
+			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+			PublisherLocalServiceUtil.addPublisher(publisher, themeDisplay.getUserId());
 
 			SessionMessages.add(request, "publisher-added");
 

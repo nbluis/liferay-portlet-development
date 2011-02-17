@@ -70,11 +70,13 @@ public class PublisherLocalServiceWrapper implements PublisherLocalService {
 	* Deletes the publisher from the database. Also notifies the appropriate model listeners.
 	*
 	* @param publisher the publisher to delete
+	* @throws PortalException
 	* @throws SystemException if a system exception occurred
 	*/
 	public void deletePublisher(
 		com.liferay.training.library.model.Publisher publisher)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
 		_publisherLocalService.deletePublisher(publisher);
 	}
 
@@ -218,6 +220,18 @@ public class PublisherLocalServiceWrapper implements PublisherLocalService {
 		com.liferay.training.library.model.Publisher publisher, boolean merge)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _publisherLocalService.updatePublisher(publisher, merge);
+	}
+
+	/**
+	* Adds the Publisher to the database incrementing the primary key
+	*
+	* @throws PortalException
+	*/
+	public com.liferay.training.library.model.Publisher addPublisher(
+		com.liferay.training.library.model.Publisher newPublisher, long userId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _publisherLocalService.addPublisher(newPublisher, userId);
 	}
 
 	/**

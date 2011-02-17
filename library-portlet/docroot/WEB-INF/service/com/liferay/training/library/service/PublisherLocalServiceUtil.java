@@ -80,11 +80,13 @@ public class PublisherLocalServiceUtil {
 	* Deletes the publisher from the database. Also notifies the appropriate model listeners.
 	*
 	* @param publisher the publisher to delete
+	* @throws PortalException
 	* @throws SystemException if a system exception occurred
 	*/
 	public static void deletePublisher(
 		com.liferay.training.library.model.Publisher publisher)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
 		getService().deletePublisher(publisher);
 	}
 
@@ -228,6 +230,18 @@ public class PublisherLocalServiceUtil {
 		com.liferay.training.library.model.Publisher publisher, boolean merge)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().updatePublisher(publisher, merge);
+	}
+
+	/**
+	* Adds the Publisher to the database incrementing the primary key
+	*
+	* @throws PortalException
+	*/
+	public static com.liferay.training.library.model.Publisher addPublisher(
+		com.liferay.training.library.model.Publisher newPublisher, long userId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().addPublisher(newPublisher, userId);
 	}
 
 	/**

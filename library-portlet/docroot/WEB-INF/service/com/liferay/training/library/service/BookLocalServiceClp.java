@@ -72,16 +72,20 @@ public class BookLocalServiceClp implements BookLocalService {
 				"updateBook", com.liferay.training.library.model.Book.class,
 				boolean.class);
 
-		_getBooksByGroupIdMethodKey13 = new MethodKey(_classLoaderProxy.getClassName(),
-				"getBooksByGroupId", long.class);
+		_addBookMethodKey13 = new MethodKey(_classLoaderProxy.getClassName(),
+				"addBook", com.liferay.training.library.model.Book.class,
+				long.class);
 
 		_getBooksByGroupIdMethodKey14 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getBooksByGroupId", long.class);
+
+		_getBooksByGroupIdMethodKey15 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getBooksByGroupId", long.class, int.class, int.class);
 
-		_getBooksCountByGroupIdMethodKey15 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getBooksCountByGroupIdMethodKey16 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getBooksCountByGroupId", long.class);
 
-		_getBooksbyPublisherMethodKey16 = new MethodKey(_classLoaderProxy.getClassName(),
+		_getBooksbyPublisherMethodKey17 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getBooksbyPublisher", long.class);
 	}
 
@@ -164,7 +168,8 @@ public class BookLocalServiceClp implements BookLocalService {
 	}
 
 	public void deleteBook(com.liferay.training.library.model.Book book)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
 		MethodHandler methodHandler = new MethodHandler(_deleteBookMethodKey3,
 				ClpSerializer.translateInput(book));
 
@@ -172,6 +177,10 @@ public class BookLocalServiceClp implements BookLocalService {
 			_classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
+
 			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
 				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
@@ -446,12 +455,45 @@ public class BookLocalServiceClp implements BookLocalService {
 		return (com.liferay.training.library.model.Book)ClpSerializer.translateOutput(returnObj);
 	}
 
+	public com.liferay.training.library.model.Book addBook(
+		com.liferay.training.library.model.Book newBook, long userId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_addBookMethodKey13,
+				ClpSerializer.translateInput(newBook), userId);
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (com.liferay.training.library.model.Book)ClpSerializer.translateOutput(returnObj);
+	}
+
 	public java.util.List<com.liferay.training.library.model.Book> getBooksByGroupId(
 		long groupId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getBooksByGroupIdMethodKey13,
+		MethodHandler methodHandler = new MethodHandler(_getBooksByGroupIdMethodKey14,
 				groupId);
 
 		try {
@@ -479,7 +521,7 @@ public class BookLocalServiceClp implements BookLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getBooksByGroupIdMethodKey14,
+		MethodHandler methodHandler = new MethodHandler(_getBooksByGroupIdMethodKey15,
 				groupId, start, end);
 
 		try {
@@ -506,7 +548,7 @@ public class BookLocalServiceClp implements BookLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getBooksCountByGroupIdMethodKey15,
+		MethodHandler methodHandler = new MethodHandler(_getBooksCountByGroupIdMethodKey16,
 				groupId);
 
 		try {
@@ -534,7 +576,7 @@ public class BookLocalServiceClp implements BookLocalService {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_getBooksbyPublisherMethodKey16,
+		MethodHandler methodHandler = new MethodHandler(_getBooksbyPublisherMethodKey17,
 				publisherId);
 
 		try {
@@ -575,8 +617,9 @@ public class BookLocalServiceClp implements BookLocalService {
 	private MethodKey _getBooksCountMethodKey10;
 	private MethodKey _updateBookMethodKey11;
 	private MethodKey _updateBookMethodKey12;
-	private MethodKey _getBooksByGroupIdMethodKey13;
+	private MethodKey _addBookMethodKey13;
 	private MethodKey _getBooksByGroupIdMethodKey14;
-	private MethodKey _getBooksCountByGroupIdMethodKey15;
-	private MethodKey _getBooksbyPublisherMethodKey16;
+	private MethodKey _getBooksByGroupIdMethodKey15;
+	private MethodKey _getBooksCountByGroupIdMethodKey16;
+	private MethodKey _getBooksbyPublisherMethodKey17;
 }

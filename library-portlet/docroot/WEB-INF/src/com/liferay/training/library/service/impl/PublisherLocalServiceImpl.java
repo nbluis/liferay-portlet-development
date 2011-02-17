@@ -15,7 +15,9 @@
 package com.liferay.training.library.service.impl;
 
 import com.liferay.counter.service.CounterLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.model.ResourceConstants;
 import com.liferay.training.library.model.Publisher;
 import com.liferay.training.library.service.base.PublisherLocalServiceBaseImpl;
 
@@ -51,13 +53,46 @@ public class PublisherLocalServiceImpl extends PublisherLocalServiceBaseImpl {
 	/**
 	 * Adds the Publisher to the database incrementing the primary key
 	 * 
+	 * @throws PortalException
+	 * 
 	 */
-	public Publisher addPublisher(Publisher publisher) throws SystemException {
+	public Publisher addPublisher(Publisher newPublisher, long userId) throws SystemException, PortalException {
+
 		long publisherId = CounterLocalServiceUtil.increment(Publisher.class.getName());
 
-		publisher.setPublisherId(publisherId);
+		Publisher publisher = publisherPersistence.create(publisherId);
+		publisher.setCompanyId(newPublisher.getCompanyId());
+		publisher.setEmailAddress(newPublisher.getEmailAddress());
+		publisher.setGroupId(newPublisher.getGroupId());
+		publisher.setName(newPublisher.getName());
+		publisher.setPhoneNumber(newPublisher.getPhoneNumber());
+		publisher.setWebsite(newPublisher.getWebsite());
 
-		return super.addPublisher(publisher);
+		publisherPersistence.update(publisher, false);
+
+		resourceLocalService.addResources(publisher.getCompanyId(), publisher.getGroupId(), userId, Publisher.class.getName(), publisherId, false, true, true);
+
+		return publisher;
+	}
+
+	/**
+	 * Deletes a publisher from the database using the Publisher object.
+	 */
+	public void deletePublisher(Publisher publisher) throws PortalException, SystemException {
+
+		resourceLocalService.deleteResource(publisher.getCompanyId(), Publisher.class.getName(), ResourceConstants.SCOPE_INDIVIDUAL, publisher.getPrimaryKey());
+
+		super.deletePublisher(publisher);
+	}
+
+	/**
+	 * Deletes a publisher from the database using a publisher ID.
+	 */
+	public void deletePublisher(long publisherId) throws PortalException, SystemException {
+
+		Publisher publisher = getPublisher(publisherId);
+
+		deletePublisher(publisher);
 	}
 
 	/**

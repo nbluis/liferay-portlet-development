@@ -68,10 +68,12 @@ public class BookLocalServiceWrapper implements BookLocalService {
 	* Deletes the book from the database. Also notifies the appropriate model listeners.
 	*
 	* @param book the book to delete
+	* @throws PortalException
 	* @throws SystemException if a system exception occurred
 	*/
 	public void deleteBook(com.liferay.training.library.model.Book book)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
 		_bookLocalService.deleteBook(book);
 	}
 
@@ -214,6 +216,18 @@ public class BookLocalServiceWrapper implements BookLocalService {
 		com.liferay.training.library.model.Book book, boolean merge)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _bookLocalService.updateBook(book, merge);
+	}
+
+	/**
+	* Adds the Book to the database incrementing the primary key
+	*
+	* @throws PortalException
+	*/
+	public com.liferay.training.library.model.Book addBook(
+		com.liferay.training.library.model.Book newBook, long userId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _bookLocalService.addBook(newBook, userId);
 	}
 
 	/**
