@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.liferay.training.library.model.Publisher">
+		<field name="publisherId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="name" type="String" />
+		<field name="emailAddress" type="String" />
+		<field name="website" type="String" />
+		<field name="phoneNumber" type="String" />
+	</model>
+	<model name="com.liferay.training.library.model.Book">
+		<field name="bookId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="publisherId" type="long" />
+		<field name="title" type="String" localized="true" />
+		<field name="authorName" type="String" />
+		<field name="publicationDate" type="Date" />
+	</model>
+</model-hints>

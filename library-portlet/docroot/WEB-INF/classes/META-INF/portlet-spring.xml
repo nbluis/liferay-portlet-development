@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<bean id="com.liferay.training.library.service.PublisherLocalService" class="com.liferay.training.library.service.impl.PublisherLocalServiceImpl" />
+	<bean id="com.liferay.training.library.service.PublisherLocalServiceUtil" class="com.liferay.training.library.service.PublisherLocalServiceUtil">
+		<property name="service" ref="com.liferay.training.library.service.PublisherLocalService" />
+	</bean>
+	<bean id="com.liferay.training.library.service.persistence.PublisherPersistence" class="com.liferay.training.library.service.persistence.PublisherPersistenceImpl" parent="basePersistence" />
+	<bean id="com.liferay.training.library.service.BookLocalService" class="com.liferay.training.library.service.impl.BookLocalServiceImpl" />
+	<bean id="com.liferay.training.library.service.BookLocalServiceUtil" class="com.liferay.training.library.service.BookLocalServiceUtil">
+		<property name="service" ref="com.liferay.training.library.service.BookLocalService" />
+	</bean>
+	<bean id="com.liferay.training.library.service.persistence.BookPersistence" class="com.liferay.training.library.service.persistence.BookPersistenceImpl" parent="basePersistence" />
+</beans>
