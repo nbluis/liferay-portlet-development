@@ -28,13 +28,20 @@
 
 		<aui:input type="hidden" name="publisherId" value='<%= publisher == null ? "" : publisher.getPublisherId() %>'/>
 
+		<liferay-ui:error key="publishername-required" message="publishername-required" />
 		<aui:input name="name" />
 
+		<liferay-ui:error key="publisheremail-required" message="publisheremail-required" />
+		<liferay-ui:error key="publisheremail-format-error"	message="publisheremail-format-error" />
 		<aui:input name="emailAddress" />
 
 		<aui:input name="website" />
 
+		<liferay-ui:error key="publisherphonenumber-required" message="publisherphonenumber-required" />
+		<liferay-ui:error key="publisherphonenumber-format-error" message="publisherphonenumber-format-error" />
 		<aui:input name="phoneNumber" />
+
+		
 	</aui:fieldset>
 
 	<aui:button-row>

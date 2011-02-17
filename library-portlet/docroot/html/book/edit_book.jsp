@@ -29,21 +29,27 @@ String redirect = ParamUtil.getString(request, "redirect");
 
 		<aui:input type="hidden" name="bookId" value='<%= book == null ? "" : book.getBookId() %>'/>
 
+		<liferay-ui:error key="booktitle-required" message="booktitle-required"/>
 		<aui:input name="title" />
 
+		<liferay-ui:error key="bookauthorname-required" message="bookauthorname-required" />
 		<aui:input name="authorName" />
 
+		<liferay-ui:error key="bookpublicationdate-required" message="bookpublicationdate-required" />
 		<aui:input name="publicationDate" />
 
+		<liferay-ui:error key="publisher-required" message="publisher-required" />
 		<aui:select name="publisherId" showEmptyOption="<%= true %>">
 
-	 		<%
+				<%
 				for(Publisher publisher: publishers){
-			%>
-			<aui:option value="<%= publisher.getPublisherId() %>" selected="<%= book != null && publisher.getPublisherId() == book.getPublisherId() %>"><%=publisher.getName()%></aui:option>
-			<%
+				%>
+
+				<aui:option value="<%= publisher.getPublisherId() %>" selected="<%= book != null && publisher.getPublisherId() == book.getPublisherId() %>"><%=publisher.getName()%></aui:option>
+
+				<%
 				}
-			%>
+				%>
 
 		</aui:select>
 	</aui:fieldset>

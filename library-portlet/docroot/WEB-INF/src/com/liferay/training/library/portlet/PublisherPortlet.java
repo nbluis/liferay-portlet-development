@@ -1,15 +1,18 @@
 package com.liferay.training.library.portlet;
 
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.portal.util.PortalUtil;
 import com.liferay.training.library.model.Publisher;
 import com.liferay.training.library.model.impl.PublisherImpl;
 import com.liferay.training.library.service.PublisherLocalServiceUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
+
+import java.util.ArrayList;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -29,11 +32,23 @@ public class PublisherPortlet extends MVCPortlet {
 
 		Publisher publisher = publisherFromRequest(request);
 
-		PublisherLocalServiceUtil.addPublisher(publisher);
+		ArrayList<String> errors = new ArrayList<String>();
 
-		SessionMessages.add(request, "publisher-added");
+		if (PublisherValidator.validatePublisher(publisher, errors)) {
+			PublisherLocalServiceUtil.addPublisher(publisher);
 
-		sendRedirect(request, response);
+			SessionMessages.add(request, "publisher-added");
+
+			sendRedirect(request, response);
+		} else {
+			for (String error : errors) {
+				SessionErrors.add(request, error);
+			}
+
+			PortalUtil.copyRequestParameters(request, response);
+
+			response.setRenderParameter("jspPage", "/html/publisher/edit_publisher.jsp");
+		}
 	}
 
 	/**
@@ -44,11 +59,23 @@ public class PublisherPortlet extends MVCPortlet {
 
 		Publisher publisher = publisherFromRequest(request);
 
-		PublisherLocalServiceUtil.updatePublisher(publisher);
+		ArrayList<String> errors = new ArrayList<String>();
 
-		SessionMessages.add(request, "publisher-updated");
+		if (PublisherValidator.validatePublisher(publisher, errors)) {
+			PublisherLocalServiceUtil.updatePublisher(publisher);
 
-		sendRedirect(request, response);
+			SessionMessages.add(request, "publisher-updated");
+
+			sendRedirect(request, response);
+		} else {
+			for (String error : errors) {
+				SessionErrors.add(request, error);
+			}
+
+			PortalUtil.copyRequestParameters(request, response);
+
+			response.setRenderParameter("jspPage", "/html/publisher/edit_publisher.jsp");
+		}
 	}
 
 	/**
@@ -59,11 +86,15 @@ public class PublisherPortlet extends MVCPortlet {
 
 		long publisherId = ParamUtil.getLong(request, "publisherId");
 
-		PublisherLocalServiceUtil.deletePublisher(publisherId);
+		if (Validator.isNotNull(publisherId)) {
+			PublisherLocalServiceUtil.deletePublisher(publisherId);
 
-		SessionMessages.add(request, "publisher-deleted");
+			SessionMessages.add(request, "publisher-deleted");
 
-		sendRedirect(request, response);
+			sendRedirect(request, response);
+		} else {
+			SessionErrors.add(request, "error-deleting");
+		}
 	}
 
 	/**
@@ -105,5 +136,4 @@ public class PublisherPortlet extends MVCPortlet {
 		return publisher;
 	}
 
-	private static Log _log = LogFactoryUtil.getLog(PublisherPortlet.class);
 }

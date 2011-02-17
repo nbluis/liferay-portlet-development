@@ -1,9 +1,10 @@
 package com.liferay.training.library.portlet;
 
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
@@ -37,26 +38,21 @@ public class BookPortlet extends MVCPortlet {
 
 		Book book = bookFromRequest(request);
 
-		BookLocalServiceUtil.addBook(book);
+		if (BookValidator.validateBook(book, errors)) {
+			BookLocalServiceUtil.addBook(book);
 
-		/* Placeholder for SessionMessages */
+			SessionMessages.add(request, "book-added");
 
-		sendRedirect(request, response);
-	}
+			sendRedirect(request, response);
+		} else {
+			for (String error : errors) {
+				SessionErrors.add(request, error);
+			}
 
-	/**
-	 * Updates the database record of an existing book.
-	 * 
-	 */
-	public void updateBook(ActionRequest request, ActionResponse response) throws Exception {
+			PortalUtil.copyRequestParameters(request, response);
 
-		Book book = bookFromRequest(request);
-
-		BookLocalServiceUtil.updateBook(book);
-
-		/* Placeholder for SessionMessages */
-
-		sendRedirect(request, response);
+			response.setRenderParameter("jspPage", "/html/book/edit_book.jsp");
+		}
 	}
 
 	/**
@@ -67,11 +63,42 @@ public class BookPortlet extends MVCPortlet {
 
 		long bookId = ParamUtil.getLong(request, "bookId");
 
-		BookLocalServiceUtil.deleteBook(bookId);
+		if (Validator.isNotNull(bookId)) {
+			BookLocalServiceUtil.deleteBook(bookId);
 
-		/* Placeholder for SessionMessages */
+			SessionMessages.add(request, "book-deleted");
 
-		sendRedirect(request, response);
+			sendRedirect(request, response);
+		} else {
+			SessionErrors.add(request, "error-deleting");
+		}
+	}
+
+	/**
+	 * Updates the database record of an existing book.
+	 * 
+	 */
+	public void updateBook(ActionRequest request, ActionResponse response) throws Exception {
+
+		Book book = bookFromRequest(request);
+
+		ArrayList<String> errors = new ArrayList<String>();
+
+		if (BookValidator.validateBook(book, errors)) {
+			BookLocalServiceUtil.updateBook(book);
+
+			SessionMessages.add(request, "book-updated");
+
+			sendRedirect(request, response);
+		} else {
+			for (String error : errors) {
+				SessionErrors.add(request, error);
+			}
+
+			PortalUtil.copyRequestParameters(request, response);
+
+			response.setRenderParameter("jspPage", "/html/book/edit_book.jsp");
+		}
 	}
 
 	/**
@@ -86,12 +113,18 @@ public class BookPortlet extends MVCPortlet {
 
 		ArrayList<String> errors = new ArrayList<String>();
 
-		PortletPreferences prefs = request.getPreferences();
+		if (BookValidator.validatePreferences(rowsPerPage, dateFormat, errors)) {
+			PortletPreferences prefs = request.getPreferences();
 
-		prefs.setValue("rowsPerPage", rowsPerPage);
-		prefs.setValue("dateFormat", dateFormat);
+			prefs.setValue("rowsPerPage", rowsPerPage);
+			prefs.setValue("dateFormat", dateFormat);
 
-		prefs.store();
+			prefs.store();
+		} else {
+			for (String error : errors) {
+				SessionErrors.add(request, error);
+			}
+		}
 	}
 
 	/**
@@ -121,7 +154,5 @@ public class BookPortlet extends MVCPortlet {
 
 		return book;
 	}
-
-	private static Log _log = LogFactoryUtil.getLog(BookPortlet.class);
 
 }
