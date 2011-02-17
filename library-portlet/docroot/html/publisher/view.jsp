@@ -12,3 +12,43 @@
 
 	<aui:button value="Add Publisher" onClick="<%= addPublisherURL.toString() %>"/>
 </aui:button-row>
+
+<liferay-ui:search-container delta='<%= GetterUtil.getInteger(prefs.getValue("rowsPerPage", "5")) %>' emptyResultsMessage="publisher-empty-results-message">
+	<liferay-ui:search-container-results
+		results="<%= PublisherLocalServiceUtil.getPublishersByGroupId(scopeGroupId, searchContainer.getStart(), searchContainer.getEnd()) %>"
+		total="<%= PublisherLocalServiceUtil.getPublishersCountByGroupId(scopeGroupId) %>"
+	/>
+
+	<liferay-ui:search-container-row
+		className="com.liferay.training.library.model.Publisher"
+		keyProperty="publisherId"
+		modelVar="publisher"
+	>
+		<liferay-ui:search-container-column-text
+			name="name"
+			value="<%= publisher.getName() %>"
+		/>
+
+		<liferay-ui:search-container-column-text
+			name="email-address"
+			property="emailAddress"
+		/>
+
+		<liferay-ui:search-container-column-text
+			name="phone-number"
+			property="phoneNumber"
+		/>
+
+		<liferay-ui:search-container-column-text
+			name="website"
+			property="website"
+		/>
+
+		<liferay-ui:search-container-column-jsp
+			align="right"
+			path="/html/publisher/publisher_actions.jsp"
+		/>
+	</liferay-ui:search-container-row>
+
+	<liferay-ui:search-iterator />
+</liferay-ui:search-container>

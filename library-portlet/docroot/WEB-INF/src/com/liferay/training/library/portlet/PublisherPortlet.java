@@ -12,6 +12,7 @@ import com.liferay.util.bridges.mvc.MVCPortlet;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
 
 /**
@@ -32,6 +33,54 @@ public class PublisherPortlet extends MVCPortlet {
 		/* Placeholder for SessionMessages */
 
 		sendRedirect(request, response);
+	}
+
+	/**
+	 * Updates the database record of an existing publisher.
+	 * 
+	 */
+	public void updatePublisher(ActionRequest request, ActionResponse response) throws Exception {
+
+		Publisher publisher = publisherFromRequest(request);
+
+		PublisherLocalServiceUtil.updatePublisher(publisher);
+
+		/* Placeholder for SessionMessages */
+
+		sendRedirect(request, response);
+	}
+
+	/**
+	 * Deletes a publisher from the database.
+	 * 
+	 */
+	public void deletePublisher(ActionRequest request, ActionResponse response) throws Exception {
+
+		long publisherId = ParamUtil.getLong(request, "publisherId");
+
+		PublisherLocalServiceUtil.deletePublisher(publisherId);
+
+		/* Placeholder for SessionMessages */
+
+		sendRedirect(request, response);
+	}
+
+	/**
+	 * Sets the preferences for how many publishers can be viewed per page and
+	 * the format for the phone number
+	 * 
+	 */
+	public void setPublisherPref(ActionRequest request, ActionResponse response) throws Exception {
+
+		String rowsPerPage = ParamUtil.getString(request, "rowsPerPage");
+		String phoneFormat = ParamUtil.getString(request, "phoneFormat");
+
+		PortletPreferences prefs = request.getPreferences();
+
+		prefs.setValue("rowsPerPage", rowsPerPage);
+		prefs.setValue("phoneFormat", phoneFormat);
+
+		prefs.store();
 	}
 
 	/**
@@ -56,5 +105,4 @@ public class PublisherPortlet extends MVCPortlet {
 	}
 
 	private static Log _log = LogFactoryUtil.getLog(PublisherPortlet.class);
-
 }

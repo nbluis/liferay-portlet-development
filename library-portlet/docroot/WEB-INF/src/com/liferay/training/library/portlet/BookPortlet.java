@@ -19,6 +19,7 @@ import java.util.Map;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
 
 /**
@@ -41,6 +42,56 @@ public class BookPortlet extends MVCPortlet {
 		/* Placeholder for SessionMessages */
 
 		sendRedirect(request, response);
+	}
+
+	/**
+	 * Updates the database record of an existing book.
+	 * 
+	 */
+	public void updateBook(ActionRequest request, ActionResponse response) throws Exception {
+
+		Book book = bookFromRequest(request);
+
+		BookLocalServiceUtil.updateBook(book);
+
+		/* Placeholder for SessionMessages */
+
+		sendRedirect(request, response);
+	}
+
+	/**
+	 * Deletes a book from the database.
+	 * 
+	 */
+	public void deleteBook(ActionRequest request, ActionResponse response) throws Exception {
+
+		long bookId = ParamUtil.getLong(request, "bookId");
+
+		BookLocalServiceUtil.deleteBook(bookId);
+
+		/* Placeholder for SessionMessages */
+
+		sendRedirect(request, response);
+	}
+
+	/**
+	 * Sets the preferences for how many books can be viewed per page and the
+	 * format for the date.
+	 * 
+	 */
+	public void setBookPref(ActionRequest request, ActionResponse response) throws Exception {
+
+		String rowsPerPage = ParamUtil.getString(request, "rowsPerPage");
+		String dateFormat = ParamUtil.getString(request, "dateFormat");
+
+		ArrayList<String> errors = new ArrayList<String>();
+
+		PortletPreferences prefs = request.getPreferences();
+
+		prefs.setValue("rowsPerPage", rowsPerPage);
+		prefs.setValue("dateFormat", dateFormat);
+
+		prefs.store();
 	}
 
 	/**
