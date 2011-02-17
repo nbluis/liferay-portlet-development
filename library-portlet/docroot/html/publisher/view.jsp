@@ -1,4 +1,7 @@
 <%@include file="/html/init.jsp" %>
+<liferay-ui:success key="publisher-added" message="publisher-added-successfully" />
+<liferay-ui:success key="publisher-updated" message="publisher-updated-successfully" />
+<liferay-ui:success key="publisher-deleted" message="publisher-deleted-successfully" />
 
 <%
 	String redirect = PortalUtil.getCurrentURL(renderRequest);	

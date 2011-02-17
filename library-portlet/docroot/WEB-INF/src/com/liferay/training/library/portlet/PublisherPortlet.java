@@ -2,6 +2,7 @@ package com.liferay.training.library.portlet;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.theme.ThemeDisplay;
@@ -30,7 +31,7 @@ public class PublisherPortlet extends MVCPortlet {
 
 		PublisherLocalServiceUtil.addPublisher(publisher);
 
-		/* Placeholder for SessionMessages */
+		SessionMessages.add(request, "publisher-added");
 
 		sendRedirect(request, response);
 	}
@@ -45,7 +46,7 @@ public class PublisherPortlet extends MVCPortlet {
 
 		PublisherLocalServiceUtil.updatePublisher(publisher);
 
-		/* Placeholder for SessionMessages */
+		SessionMessages.add(request, "publisher-updated");
 
 		sendRedirect(request, response);
 	}
@@ -60,7 +61,7 @@ public class PublisherPortlet extends MVCPortlet {
 
 		PublisherLocalServiceUtil.deletePublisher(publisherId);
 
-		/* Placeholder for SessionMessages */
+		SessionMessages.add(request, "publisher-deleted");
 
 		sendRedirect(request, response);
 	}
