@@ -220,6 +220,32 @@ public class PublisherLocalServiceWrapper implements PublisherLocalService {
 		return _publisherLocalService.updatePublisher(publisher, merge);
 	}
 
+	/**
+	* Gets a list with all the Publishers in a group
+	*/
+	public java.util.List<com.liferay.training.library.model.Publisher> getPublishersByGroupId(
+		long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _publisherLocalService.getPublishersByGroupId(groupId);
+	}
+
+	/**
+	* Gets a list with a range of Publishers from a group
+	*/
+	public java.util.List<com.liferay.training.library.model.Publisher> getPublishersByGroupId(
+		long groupId, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _publisherLocalService.getPublishersByGroupId(groupId, start, end);
+	}
+
+	/**
+	* Gets the number of Publishers in a group
+	*/
+	public int getPublishersCountByGroupId(long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _publisherLocalService.getPublishersCountByGroupId(groupId);
+	}
+
 	public PublisherLocalService getWrappedPublisherLocalService() {
 		return _publisherLocalService;
 	}

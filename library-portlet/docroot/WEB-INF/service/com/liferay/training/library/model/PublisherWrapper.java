@@ -213,7 +213,7 @@ public class PublisherWrapper implements Publisher {
 		return new PublisherWrapper((Publisher)_publisher.clone());
 	}
 
-	public int compareTo(Publisher publisher) {
+	public int compareTo(com.liferay.training.library.model.Publisher publisher) {
 		return _publisher.compareTo(publisher);
 	}
 
@@ -221,7 +221,7 @@ public class PublisherWrapper implements Publisher {
 		return _publisher.hashCode();
 	}
 
-	public Publisher toEscapedModel() {
+	public com.liferay.training.library.model.Publisher toEscapedModel() {
 		return new PublisherWrapper(_publisher.toEscapedModel());
 	}
 

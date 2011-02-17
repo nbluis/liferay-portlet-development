@@ -216,6 +216,41 @@ public class BookLocalServiceWrapper implements BookLocalService {
 		return _bookLocalService.updateBook(book, merge);
 	}
 
+	/**
+	* Gets a list with all the Books in a group
+	*/
+	public java.util.List<com.liferay.training.library.model.Book> getBooksByGroupId(
+		long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _bookLocalService.getBooksByGroupId(groupId);
+	}
+
+	/**
+	* Gets a list with a range of Books from a group
+	*/
+	public java.util.List<com.liferay.training.library.model.Book> getBooksByGroupId(
+		long groupId, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _bookLocalService.getBooksByGroupId(groupId, start, end);
+	}
+
+	/**
+	* Gets the number of Books in a group
+	*/
+	public int getBooksCountByGroupId(long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _bookLocalService.getBooksCountByGroupId(groupId);
+	}
+
+	/**
+	* Gets a list of Books from a Publisher
+	*/
+	public java.util.List<com.liferay.training.library.model.Book> getBooksbyPublisher(
+		long publisherId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _bookLocalService.getBooksbyPublisher(publisherId);
+	}
+
 	public BookLocalService getWrappedBookLocalService() {
 		return _bookLocalService;
 	}

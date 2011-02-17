@@ -208,4 +208,27 @@ public interface PublisherLocalService {
 	public com.liferay.training.library.model.Publisher updatePublisher(
 		com.liferay.training.library.model.Publisher publisher, boolean merge)
 		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Gets a list with all the Publishers in a group
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<com.liferay.training.library.model.Publisher> getPublishersByGroupId(
+		long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Gets a list with a range of Publishers from a group
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<com.liferay.training.library.model.Publisher> getPublishersByGroupId(
+		long groupId, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Gets the number of Publishers in a group
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getPublishersCountByGroupId(long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException;
 }

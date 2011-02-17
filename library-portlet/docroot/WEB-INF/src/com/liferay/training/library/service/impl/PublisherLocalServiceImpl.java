@@ -14,18 +14,27 @@
 
 package com.liferay.training.library.service.impl;
 
+import com.liferay.counter.service.CounterLocalServiceUtil;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.training.library.model.Publisher;
 import com.liferay.training.library.service.base.PublisherLocalServiceBaseImpl;
+
+import java.util.List;
 
 /**
  * The implementation of the publisher local service.
- *
+ * 
  * <p>
- * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.liferay.training.library.service.PublisherLocalService} interface.
- *
+ * All custom service methods should be put in this class. Whenever methods are
+ * added, rerun ServiceBuilder to copy their definitions into the
+ * {@link com.liferay.training.library.service.PublisherLocalService} interface.
+ * 
  * <p>
- * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
+ * This is a local service. Methods of this service will not have security
+ * checks based on the propagated JAAS credentials because this service can only
+ * be accessed from within the same VM.
  * </p>
- *
+ * 
  * @author Eduardo Bohrer
  * @see com.liferay.training.library.service.base.PublisherLocalServiceBaseImpl
  * @see com.liferay.training.library.service.PublisherLocalServiceUtil
@@ -33,7 +42,45 @@ import com.liferay.training.library.service.base.PublisherLocalServiceBaseImpl;
 public class PublisherLocalServiceImpl extends PublisherLocalServiceBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this interface directly. Always use {@link com.liferay.training.library.service.PublisherLocalServiceUtil} to access the publisher local service.
+	 * 
+	 * Never reference this interface directly. Always use {@link
+	 * com.liferay.training.library.service.PublisherLocalServiceUtil} to access
+	 * the publisher local service.
 	 */
+
+	/**
+	 * Adds the Publisher to the database incrementing the primary key
+	 * 
+	 */
+	public Publisher addPublisher(Publisher publisher) throws SystemException {
+		long publisherId = CounterLocalServiceUtil.increment(Publisher.class.getName());
+
+		publisher.setPublisherId(publisherId);
+
+		return super.addPublisher(publisher);
+	}
+
+	/**
+	 * Gets a list with all the Publishers in a group
+	 * 
+	 */
+	public List<Publisher> getPublishersByGroupId(long groupId) throws SystemException {
+		return publisherPersistence.findByGroupId(groupId);
+	}
+
+	/**
+	 * Gets a list with a range of Publishers from a group
+	 * 
+	 */
+	public List<Publisher> getPublishersByGroupId(long groupId, int start, int end) throws SystemException {
+		return publisherPersistence.findByGroupId(groupId, start, end);
+	}
+
+	/**
+	 * Gets the number of Publishers in a group
+	 * 
+	 */
+	public int getPublishersCountByGroupId(long groupId) throws SystemException {
+		return publisherPersistence.countByGroupId(groupId);
+	}
 }

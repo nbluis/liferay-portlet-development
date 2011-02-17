@@ -285,7 +285,7 @@ public class BookWrapper implements Book {
 		return new BookWrapper((Book)_book.clone());
 	}
 
-	public int compareTo(Book book) {
+	public int compareTo(com.liferay.training.library.model.Book book) {
 		return _book.compareTo(book);
 	}
 
@@ -293,7 +293,7 @@ public class BookWrapper implements Book {
 		return _book.hashCode();
 	}
 
-	public Book toEscapedModel() {
+	public com.liferay.training.library.model.Book toEscapedModel() {
 		return new BookWrapper(_book.toEscapedModel());
 	}
 

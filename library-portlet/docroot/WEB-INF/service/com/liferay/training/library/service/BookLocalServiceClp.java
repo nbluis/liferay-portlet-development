@@ -71,6 +71,18 @@ public class BookLocalServiceClp implements BookLocalService {
 		_updateBookMethodKey12 = new MethodKey(_classLoaderProxy.getClassName(),
 				"updateBook", com.liferay.training.library.model.Book.class,
 				boolean.class);
+
+		_getBooksByGroupIdMethodKey13 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getBooksByGroupId", long.class);
+
+		_getBooksByGroupIdMethodKey14 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getBooksByGroupId", long.class, int.class, int.class);
+
+		_getBooksCountByGroupIdMethodKey15 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getBooksCountByGroupId", long.class);
+
+		_getBooksbyPublisherMethodKey16 = new MethodKey(_classLoaderProxy.getClassName(),
+				"getBooksbyPublisher", long.class);
 	}
 
 	public com.liferay.training.library.model.Book addBook(
@@ -434,6 +446,117 @@ public class BookLocalServiceClp implements BookLocalService {
 		return (com.liferay.training.library.model.Book)ClpSerializer.translateOutput(returnObj);
 	}
 
+	public java.util.List<com.liferay.training.library.model.Book> getBooksByGroupId(
+		long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_getBooksByGroupIdMethodKey13,
+				groupId);
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<com.liferay.training.library.model.Book>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	public java.util.List<com.liferay.training.library.model.Book> getBooksByGroupId(
+		long groupId, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_getBooksByGroupIdMethodKey14,
+				groupId, start, end);
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<com.liferay.training.library.model.Book>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	public int getBooksCountByGroupId(long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_getBooksCountByGroupIdMethodKey15,
+				groupId);
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return ((Integer)returnObj).intValue();
+	}
+
+	public java.util.List<com.liferay.training.library.model.Book> getBooksbyPublisher(
+		long publisherId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		MethodHandler methodHandler = new MethodHandler(_getBooksbyPublisherMethodKey16,
+				publisherId);
+
+		try {
+			returnObj = _classLoaderProxy.invoke(methodHandler);
+		}
+		catch (Throwable t) {
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<com.liferay.training.library.model.Book>)ClpSerializer.translateOutput(returnObj);
+	}
+
 	public ClassLoaderProxy getClassLoaderProxy() {
 		return _classLoaderProxy;
 	}
@@ -452,4 +575,8 @@ public class BookLocalServiceClp implements BookLocalService {
 	private MethodKey _getBooksCountMethodKey10;
 	private MethodKey _updateBookMethodKey11;
 	private MethodKey _updateBookMethodKey12;
+	private MethodKey _getBooksByGroupIdMethodKey13;
+	private MethodKey _getBooksByGroupIdMethodKey14;
+	private MethodKey _getBooksCountByGroupIdMethodKey15;
+	private MethodKey _getBooksbyPublisherMethodKey16;
 }

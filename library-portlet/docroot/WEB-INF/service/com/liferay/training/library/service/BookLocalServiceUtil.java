@@ -228,6 +228,41 @@ public class BookLocalServiceUtil {
 		return getService().updateBook(book, merge);
 	}
 
+	/**
+	* Gets a list with all the Books in a group
+	*/
+	public static java.util.List<com.liferay.training.library.model.Book> getBooksByGroupId(
+		long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getBooksByGroupId(groupId);
+	}
+
+	/**
+	* Gets a list with a range of Books from a group
+	*/
+	public static java.util.List<com.liferay.training.library.model.Book> getBooksByGroupId(
+		long groupId, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getBooksByGroupId(groupId, start, end);
+	}
+
+	/**
+	* Gets the number of Books in a group
+	*/
+	public static int getBooksCountByGroupId(long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getBooksCountByGroupId(groupId);
+	}
+
+	/**
+	* Gets a list of Books from a Publisher
+	*/
+	public static java.util.List<com.liferay.training.library.model.Book> getBooksbyPublisher(
+		long publisherId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getBooksbyPublisher(publisherId);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

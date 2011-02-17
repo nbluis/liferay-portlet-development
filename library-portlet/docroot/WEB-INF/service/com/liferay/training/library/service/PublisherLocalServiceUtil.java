@@ -230,6 +230,32 @@ public class PublisherLocalServiceUtil {
 		return getService().updatePublisher(publisher, merge);
 	}
 
+	/**
+	* Gets a list with all the Publishers in a group
+	*/
+	public static java.util.List<com.liferay.training.library.model.Publisher> getPublishersByGroupId(
+		long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getPublishersByGroupId(groupId);
+	}
+
+	/**
+	* Gets a list with a range of Publishers from a group
+	*/
+	public static java.util.List<com.liferay.training.library.model.Publisher> getPublishersByGroupId(
+		long groupId, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getPublishersByGroupId(groupId, start, end);
+	}
+
+	/**
+	* Gets the number of Publishers in a group
+	*/
+	public static int getPublishersCountByGroupId(long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getPublishersCountByGroupId(groupId);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}
